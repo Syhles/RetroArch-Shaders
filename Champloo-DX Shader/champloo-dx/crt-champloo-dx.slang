@@ -71,8 +71,6 @@ float curvature_3D_tilt_angle_x = params.curvature_3D_tilt_angle_x;
 float curvature_3D_tilt_angle_y = params.curvature_3D_tilt_angle_y;
 float hmss_curvature_2D_long_axis = params.hmss_curvature_2D_long_axis;
 float hmss_curvature_2D_short_axis = params.hmss_curvature_2D_short_axis;
-float warpX = global.warpX;
-float warpY = global.warpY;
 float csize = global.csize;
 float bsize = global.bsize;
 
@@ -164,14 +162,6 @@ vec3 sw2(vec3 x, vec3 color, float scanline)
 	if (vertmask_b != 0.0) scans1.b =0.85;
 	return mix(vec3(mx), res, scans1);
 }
- 
-// Distortion of scanlines, and end of screen alpha (PD Lottes Curvature)
-vec2 LottesWarp(vec2 pos)
-{
-	pos  = pos*2.0-1.0;
-	pos *= vec2(1.0 + (pos.y*pos.y)*warpX, 1.0 + (pos.x*pos.x)*warpY);
-	return pos*0.5 + 0.5;
-}
 
 vec2 Overscan(vec2 pos, float dx, float dy){
 	pos=pos*2.0-1.0;    
@@ -234,7 +224,7 @@ void main()
 	// HSM Added
 	vec2 pos = texcoord;
 	vec2 pos0 = TEX0;
-	if (curvature_mode > 0)
+	if (curvature_mode > 0.5)
 	{
 		float screen_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
 		vec2 extra_curvature_mult = HMSS_GetCurvatureValues() / 2 * 50 + 1;
@@ -258,8 +248,6 @@ void main()
 										extra_curvature_mult,
 										pixel_to_video_uv);
 	}
-	else
-		pos  = LottesWarp(texcoord*(TextureSize.xy/InputSize.xy))*(InputSize.xy/TextureSize.xy);
 	
 	vec2 coffset = vec2(0.5, 0.5);
 	bool interb = (interm > 0.5 && interm < 2.5 && inter <= mix(SourceSize.y, SourceSize.x, TATE));
@@ -471,35 +459,12 @@ void main()
 	vec3 orig1 = color; float pixbr = max(max(ctmp.r,ctmp.g),ctmp.b);
 	vec3 one = vec3(1.0); w1 = w1+w2; float w3 = max(max(w1.r,w1.g),w1.b);
 
-	if (Bloom_Mode == -1.0)
-	{
-		color = color;
-	} else
-	if (Bloom_Mode == 0.0)
+	if (Bloom_Mode == 1.0)
 	{
 		color += diff * mask_weight * HALATION;
 		if (interm < 0.5 || inter > mix(SourceSize.y, SourceSize.x, TATE)) color = declip(color, pow(w3,0.5));
 		color = min(color, mix(mask_weight,one,0.6));
 		color += diff * DIFFUSION;
-	} else
-	if (Bloom_Mode == 1.0)
-	{
-		vec3 Bloom1 = 2.0*diff*diff;
-		Bloom1 = min(Bloom1, 0.75);
-		float bmax = max(max(Bloom1.r,Bloom1.g),Bloom1.b);
-		float pmax = 0.825;
-		Bloom1 = min(Bloom1, pmax*bmax)/pmax;
-
-		Bloom1 = mix(min( Bloom1, color), Bloom1, 0.5*(orig1+color));
-
-		Bloom1 = HALATION*Bloom1;
-
-		color = color + Bloom1;
-
-		color = min(color, 1.0);
-		if (interm < 0.5 || inter > mix(SourceSize.y, SourceSize.x, TATE)) color = declip(color, pow(w3,0.6));	
-		color = min(color, mix(mask_weight,one,0.6));
-		color = color + DIFFUSION*diff;
 	}
 
 	color = pow(color, vec3(1.0/gamma_out));

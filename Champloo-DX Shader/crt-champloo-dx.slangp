@@ -1,6 +1,6 @@
 shaders = 8
 
-shader0 = champloo-dx/video-adjust-redux.slang
+shader0 = champloo-dx/video-adjust.slang
 filter_linear0 = true
 scale_type0 = source
 scale0 = 1.0
@@ -46,7 +46,7 @@ scale_type6 = source
 scale6 = 1.0
 float_framebuffer6 = true
 
-shader7 = champloo-dx/crt-guest-dr-venom.slang
+shader7 = champloo-dx/crt-champloo-dx.slang
 filter_linear7 = true
 scale_type7 = viewport
 scale_x7 = 1.0
