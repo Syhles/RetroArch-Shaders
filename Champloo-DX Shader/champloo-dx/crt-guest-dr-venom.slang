@@ -321,7 +321,7 @@ void main()
 	float twl2 = max(wl2 - sharp1, mix(0.0,mix(-0.17, -0.01, fpx),float(s_sharp > 0.05)));
 	float twl1 = max(wl1 - sharp1, 0.0);
 	float twr1 = max(wr1 - sharp1, 0.0);	
-	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.01, -fp1),float(s_sharp > 0.05)));
+	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.01, fp1),float(s_sharp > 0.05)));
 	float twr3 = max(wr3 - sharp1, 0.0);
 	
 	float wtt = 1.0/(twl3+twl2+twl1+twr1+twr2+twr3);
