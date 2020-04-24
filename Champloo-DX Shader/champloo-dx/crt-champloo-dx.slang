@@ -448,7 +448,7 @@ void main()
 	color*=mix(brightboost, brightboost1, max(max(ctmp.r,ctmp.g),ctmp.b)); 
 
 	//Static Effect
-    color *= (XFX_STATIC > 0.0) ? 1.0 + film_grain : vec3(1.0);
+	color *= (XFX_STATIC > 0.0) ? 1.0 + film_grain : vec3(1.0);
 
 	// Apply Mask
 	vec3 mask_weight = (notate) ? mask_weights(gl_FragCoord.xy, MASK_DARK, int(MASK_STYLE)) : mask_weights(gl_FragCoord.yx, MASK_DARK, int(MASK_STYLE));
