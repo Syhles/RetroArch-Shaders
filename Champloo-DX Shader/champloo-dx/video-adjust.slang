@@ -29,12 +29,14 @@ layout(push_constant) uniform Push
 } params;
 
 /*
-   Grade
-   > Ubershader grouping some color related monolithic shaders like color-mangler, vignette, white_point,
-   > and the addition of vibrance, black level, sigmoidal contrast and proper gamma transforms.
+	Video Adjust by Syhles
 
-   Author: hunterk, Guest, Dr. Venom, Dogway
-   License: Public domain
+	Based off of: Grade by Dogway
+	> Ubershader grouping some color related monolithic shaders like color-mangler, vignette, white_point,
+	> and the addition of vibrance, black level, sigmoidal contrast and proper gamma transforms.
+
+	Author: hunterk, Guest, Dr. Venom, Dogway
+	License: Public domain
 */
 
 #pragma parameter gamma_type "[Gamma] Mode: (POW = 0, sRGB = 1)" 1.0 0.0 1.0 1.0
