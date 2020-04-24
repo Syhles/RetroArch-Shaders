@@ -29,7 +29,7 @@ layout(push_constant) uniform Push
 // Champloo-DX Pass - Display Settings:
 #pragma parameter GAMMA_INPUT "[Display] Gamma: (Input)" 2.4 0.1 5.0 0.05
 #pragma parameter IOS "[Display] Smart Integer Scaling: (1.0:Y, 2.0:'X'+Y)" 0.0 0.0 2.0 1.0
-#pragma parameter h_sharp "[Display] Horizontal Sharpness:" 5.25 1.25 20.0 0.25
+#pragma parameter h_sharp "[Display] Horizontal Sharpness:" 5.25 1.0 20.0 0.25
 #pragma parameter s_sharp "[Display] Substractive Sharpness:" 0.40 0.0 1.0 0.05
 #pragma parameter brightboost "[Display] Brightboost Dark Pixels:" 1.40 0.50 4.00 0.01
 #pragma parameter brightboost1 "[Display] Brightboost Bright Pixels:" 1.15 0.50 3.00 0.025
@@ -60,16 +60,16 @@ layout(push_constant) uniform Push
 #pragma parameter DIFFUSION "[Bloom] Diffusion Strength:" 0.0 0.0 1.0 0.01
 
 // Champloo-DX Pass - Curvature Settings:
-#pragma parameter curvature_mode 					"[CURVATURE MODE]  Curvature Mode (0:2D 1-2:3D Sphere, 3:3D Cyl)" 2 0 3 1
-#pragma parameter curvature_3D_radius 				"[CURVATURE 3D]  3D Radius" 2 0.16 1024 0.01
-#pragma parameter curvature_3D_view_dist 			"[CURVATURE 3D]  3D View Distance" 2 0.5 1024 0.05
-#pragma parameter curvature_3D_tilt_angle_x 		"[CURVATURE 3D]  3D Tilt Angle X" 0 -3.1415 3.1415 0.01745
-#pragma parameter curvature_3D_tilt_angle_y 		"[CURVATURE 3D]  3D Tilt Angle Y" 0 -3.1415 3.1415 0.01745
-#pragma parameter hmss_curvature_2D_long_axis 			"[CURVATURE 2D]  2D/Extra3D Curvature on Long Axis (def 2)" 2 0 100 0.2
-#pragma parameter hmss_curvature_2D_short_axis 			"[CURVATURE 2D]  2D/Extra3D Curvature on Short Axis (def 3)" 3 0 100 0.2
+#pragma parameter curvature_mode "[CURVATURE MODE]  Curvature Mode (0:2D 1-2:3D Sphere, 3:3D Cyl)" 2 0 3 1
+#pragma parameter curvature_3D_radius "[CURVATURE 3D]  3D Radius" 2 0.16 1024 0.01
+#pragma parameter curvature_3D_view_dist "[CURVATURE 3D]  3D View Distance" 2 0.5 1024 0.05
+#pragma parameter curvature_3D_tilt_angle_x "[CURVATURE 3D]  3D Tilt Angle X" 0 -3.1415 3.1415 0.01745
+#pragma parameter curvature_3D_tilt_angle_y "[CURVATURE 3D]  3D Tilt Angle Y" 0 -3.1415 3.1415 0.01745
+#pragma parameter hmss_curvature_2D_long_axis "[CURVATURE 2D]  2D/Extra3D Curvature on Long Axis (def 2)" 2 0 100 0.2
+#pragma parameter hmss_curvature_2D_short_axis "[CURVATURE 2D]  2D/Extra3D Curvature on Short Axis (def 3)" 3 0 100 0.2
 #pragma parameter warpX "[Curvature] Horizontal:" 0.0 0.0 0.125 0.01
 #pragma parameter warpY "[Curvature] Vertical:" 0.0 0.0 0.125 0.01
-#pragma parameter csize "[Curvature] Corner Size:" 0.0 0.0 0.07 0.01
+#pragma parameter csize "[Curvature] Corner Size:" 0.0 0.0 0.13 0.01
 #pragma parameter bsize "[Curvature] Border Smooth:" 600.0 100.0 600.0 25.0
 
 // Champloo-DX Pass - Effect(s) Settings:
