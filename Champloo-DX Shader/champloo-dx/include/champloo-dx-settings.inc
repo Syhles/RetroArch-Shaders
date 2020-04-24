@@ -36,11 +36,11 @@ layout(push_constant) uniform Push
 #pragma parameter gamma_out "[Display] Gamma: (Output)" 2.4 1.0 3.5 0.05
 
 // Champloo-DX Pass - Interlacing Settings:
-#pragma parameter inter "[Scanline] Interlace Trigger Resolution:" 400.0 0.0 800.0 25.0
-#pragma parameter interm "[Scanline] Interlace Mode (0.0 = OFF):" 1.0 0.0 3.0 1.0
+#pragma parameter inter "[Interlacing] Trigger Resolution:" 400.0 0.0 800.0 25.0
+#pragma parameter interm "[Interlacing] Mode: (0.0 = OFF)" 1.0 0.0 3.0 1.0
 
 // Champloo-DX Pass - Scanline Settings:
-#pragma parameter scan_res "[Scanline] Resolution Multiplier (1.0 = Native);" 1.0 1.0 8.0 1.0
+#pragma parameter scan_res "[Scanline] Resolution Multiplier: (1.0 = Native)" 1.0 1.0 8.0 1.0
 #pragma parameter gsl "[Scanline] Style:" 0.0 0.0 2.0 1.0
 #pragma parameter scanline1 "[Scanline] Shape Center:" 6.0 1.0 15.0 1.0
 #pragma parameter scanline2 "[Scanline] Shape Edge:" 8.0 5.0 23.0 1.0
@@ -48,7 +48,7 @@ layout(push_constant) uniform Push
 #pragma parameter beam_max "[Scanline] Bright Pixel Strength:" 1.05 0.5 2.5 0.05
 #pragma parameter beam_size "[Scanline] Bright Pixel Boost:" 0.70 0.0 1.0 0.05
 #pragma parameter spike "[Scanline] Spike Removal:" 1.0 0.0 2.0 0.10 
-#pragma parameter scans "[Scanline] Saturation (Mode 1&2)" 0.5 0.0 1.0 0.1
+#pragma parameter scans "[Scanline] Saturation: (Only Mode 1&2)" 0.5 0.0 1.0 0.1
 
 // Champloo-DX Pass - Mask Settings:
 #pragma parameter MASK_STYLE "[Mask] Style:" 1.0 0.0 19.0 1.0
@@ -76,8 +76,8 @@ layout(push_constant) uniform Push
 #pragma parameter BLOOM "[Effect] Over-Bloom %:" 0.0 0.0 20.0 1.0
 #pragma parameter lsmooth "[Effect] Over-Bloom Smoothing:" 0.90 0.50 0.99 0.01
 #pragma parameter XFX_STATIC "[Effect] Static:" 0.0 0.0 99.0 3.0
-#pragma parameter XFX_VIGNETTE "[Effect] Vignette:" 0.15 0.0 0.5 0.01
-#pragma parameter XFX_HOTSPOT "[Effect] Hotspot:" 15.0 10.0 40.0 1.0
+#pragma parameter XFX_VIGNETTE "[Effect] Vignette: (Def = 0.15)" 0.0 0.0 0.5 0.01
+#pragma parameter XFX_HOTSPOT "[Effect] Hotspot: (Def = 15.0)" 0.0 10.0 40.0 1.0
 #pragma parameter vertmask_r "[Effect] Red Deconvergence:" 0.0 -0.5 0.5 0.01
 #pragma parameter vertmask_g "[Effect] Green Deconvergence:" 0.0 -0.5 0.5 0.01
 #pragma parameter vertmask_b "[Effect] Blue Deconvergence:" 0.0 -0.5 0.5 0.01
