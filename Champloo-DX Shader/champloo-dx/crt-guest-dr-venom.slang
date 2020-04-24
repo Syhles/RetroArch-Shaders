@@ -318,10 +318,10 @@ void main()
 	float fp1 = 1.-fpx;
 	
 	float twl3 = max(wl3 - sharp1, 0.0);
-	float twl2 = max(wl2 - sharp1, mix(0.0,mix(-0.18, -0.01, fpx),float(s_sharp > 0.05)));
+	float twl2 = max(wl2 - sharp1, mix(0.0,mix(-0.17, -0.01, fpx),float(s_sharp > 0.05)));
 	float twl1 = max(wl1 - sharp1, 0.0);
 	float twr1 = max(wr1 - sharp1, 0.0);	
-	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.01, 1.-fp1),float(s_sharp > 0.05)));
+	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.01, -fp1),float(s_sharp > 0.05)));
 	float twr3 = max(wr3 - sharp1, 0.0);
 	
 	float wtt = 1.0/(twl3+twl2+twl1+twr1+twr2+twr3);
@@ -349,10 +349,9 @@ void main()
 	
 	vec3 gtmp = vec3(gamma_out*0.1); 
 	vec3 scolor1 = color1;
-	
 
 	scolor1 = (sl2*wl2 + sl1*wl1 + sr1*wr1 + sr2*wr2)*wt;
-	scolor1 = pow(scolor1, gtmp);	vec3 mcolor1 = scolor1;
+	scolor1 = pow(scolor1, gtmp);
 	scolor1 = mix(color1, scolor1, spike); 
 	
 	pC4+=offy;
@@ -379,7 +378,7 @@ void main()
 	vec3 scolor2 = color2;
 	
 	scolor2 = (sl2*wl2 + sl1*wl1 + sr1*wr1 + sr2*wr2)*wt;
-	scolor2 = pow(scolor2, gtmp);	vec3 mcolor2 = scolor2;
+	scolor2 = pow(scolor2, gtmp);
 	scolor2 = mix(color2, scolor2, spike); 
 	
 	vec3 color0 = color1;
@@ -413,14 +412,11 @@ void main()
 
 	vec3 color00 = color1*wt1 + color2*wt2;
 	vec3 scolor0 = scolor1*wt1 + scolor2*wt2;
-	vec3 mcolor  = (mcolor1*wt1 + mcolor2*wt2)/(wt1+wt2);
 
 	vec3 ctmp = color00/(wt1+wt2);
 	vec3 sctmp = scolor0/(wt1+wt2);
 	
 	vec3 tmp = pow(ctmp, vec3(1.0/gamma_out));
-	mcolor = clamp(mix(ctmp, mcolor, 1.5),0.0,1.0);
-	mcolor = pow(mcolor, vec3(1.4/gamma_out));
 
 	vec3 w1,w2 = vec3(0.0);
 	
@@ -455,8 +451,7 @@ void main()
 			vec3 icolor1 = mix(color1, color0, ii);
 			vec3 icolor2 = mix(color1, color2, ii);
 			
-			color = mix(icolor1, icolor2, f);
-			mcolor = sqrt(color); 			
+			color = mix(icolor1, icolor2, f);			
 		} 
 		else color = mix(color1, color2, f);
 	}
