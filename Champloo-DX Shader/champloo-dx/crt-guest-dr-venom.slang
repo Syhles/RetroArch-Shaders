@@ -159,9 +159,9 @@ vec3 sw2(vec3 x, vec3 color, float scanline)
 	vec3 res = exp2(-scanline*ex*ex)/(0.6 + 0.4*mx);
 	mx = max(max(res.r,res.g),res.b);
 	vec3 scans1 = vec3(scans);
-	if (vertmask_r != 0.0) scans1.r =0.75;
-	if (vertmask_g != 0.0) scans1.g =0.75;
-	if (vertmask_b != 0.0) scans1.b =0.75;
+	if (vertmask_r != 0.0) scans1.r =0.85;
+	if (vertmask_g != 0.0) scans1.g =0.85;
+	if (vertmask_b != 0.0) scans1.b =0.85;
 	return mix(vec3(mx), res, scans1);
 }
  
@@ -233,6 +233,7 @@ void main()
 
 	// HSM Added
 	vec2 pos = texcoord;
+	vec2 pos0 = TEX0;
 	if (curvature_mode > 0)
 	{
 		float screen_aspect = global.FinalViewportSize.x / global.FinalViewportSize.y;
@@ -247,13 +248,24 @@ void main()
 										screen_aspect,
 										extra_curvature_mult,
 										pixel_to_video_uv);
+		pos0 = HRG_GetGeomCurvedCoord(	TEX0, 
+										curvature_mode, 
+										curvature_3D_radius,
+										curvature_3D_view_dist,
+										curvature_3D_tilt_angle_x,
+										curvature_3D_tilt_angle_y,
+										screen_aspect,
+										extra_curvature_mult,
+										pixel_to_video_uv);
 	}
 	else
 		pos  = LottesWarp(texcoord*(TextureSize.xy/InputSize.xy))*(InputSize.xy/TextureSize.xy);
-	vec2 pos0 = pos;
 	
 	vec2 coffset = vec2(0.5, 0.5);
-	if ((interm == 1.0 || interm == 2.0) && inter <= mix(SourceSize.y, SourceSize.x, TATE)) coffset = vec2(0.5, 0.0);	
+	bool interb = (interm > 0.5 && interm < 2.5 && inter <= mix(SourceSize.y, SourceSize.x, TATE));
+	bool notate  = (TATE < 0.5);
+	
+	if (interb) coffset = ((notate) ? vec2(0.5,0.0) : vec2(0.0, 0.5));
 
 	vec2 scanres = vec2(1.0,1.0);
 	
@@ -275,14 +287,14 @@ void main()
 	vec2 off2 = x2;
 	vec2 offy = dy;
 	float fpx = fp.x;
-	if(TATE > 0.5)
+	if(!notate)
 	{
 		offx = dy;
 		off2 = y2;
 		offy = dx;
 		fpx = fp.y;
 	}
-	float  f = (TATE < 0.5) ? fp.y : fp.x;
+	float  f = (notate) ? fp.y : fp.x;
 	
 	vec2 pC4 = floor(OGL2Pos) * ps + 0.5*ps;
 	
@@ -306,10 +318,10 @@ void main()
 	float fp1 = 1.-fpx;
 	
 	float twl3 = max(wl3 - sharp1, 0.0);
-	float twl2 = max(wl2 - sharp1, mix(0.0,mix(-0.17, -0.025, fp.x),float(s_sharp > 0.05)));
+	float twl2 = max(wl2 - sharp1, mix(0.0,mix(-0.18, -0.01, fpx),float(s_sharp > 0.05)));
 	float twl1 = max(wl1 - sharp1, 0.0);
 	float twr1 = max(wr1 - sharp1, 0.0);	
-	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.025, 1.-fp.x),float(s_sharp > 0.05)));
+	float twr2 = max(wr2 - sharp1, mix(0.0,mix(-0.17, -0.01, 1.-fp1),float(s_sharp > 0.05)));
 	float twr3 = max(wr3 - sharp1, 0.0);
 	
 	float wtt = 1.0/(twl3+twl2+twl1+twr1+twr2+twr3);
@@ -329,8 +341,7 @@ void main()
 	vec3 sr2 = COMPAT_TEXTURE(Texture, pC4 +off2).xyz;
 	
 	vec3 color1 = (l3*twl3 + l2*twl2 + l1*twl1 + r1*twr1 + r2*twr2 + r3*twr3)*wtt;
-	
-	vec3 e2 = l2; if (fpx > 0.5) e2 = r2;
+
 	vec3 colmin = min(min(l1,r1), min(l2,r2));
 	vec3 colmax = max(max(l1,r1), max(l2,r2));
 	
@@ -359,8 +370,7 @@ void main()
 	sr2 = COMPAT_TEXTURE(Texture, pC4 +off2).xyz;
 	
 	vec3 color2 = (l3*twl3 + l2*twl2 + l1*twl1 + r1*twr1 + r2*twr2 + r3*twr3)*wtt;
-	
-	e2 = l2; if (fpx > 0.5) e2 = r2;
+
 	colmin = min(min(l1,r1), min(l2,r2));
 	colmax = max(max(l1,r1), max(l2,r2));
 	
@@ -374,7 +384,7 @@ void main()
 	
 	vec3 color0 = color1;
 
-	if ((interm == 1.0 || interm == 2.0) && inter <= mix(SourceSize.y, SourceSize.x, TATE))
+	if (interb)
 	{
 		pC4-= 2.*offy;
 	
@@ -419,8 +429,11 @@ void main()
 	
 	//Vertical Deconvergence
 	vec3 shift = vec3(vertmask_r, vertmask_g, vertmask_b);
-	vec3 f1 = clamp(vec3(f) + shift*0.5*(1.0+f), 0.0, 1.0); 
-	vec3 f2 = clamp(vec3(1.0-f) - shift*0.5*(2.0-f), 0.0, 1.0);
+	vec3 f1 = vec3(f); 
+	vec3 f2 = vec3(1.0-f);
+
+	f1 = max(f1 + shift*0.5*(1.0+f), 0.75*f); 
+	f2 = max(f2 - shift*0.5*(2.0-f), 0.75*(1.0-f));
 	
 	// Scanline Style;
 	if (gsl == 0.0) { w1 = sw0(f1,cref1,shape1); w2 = sw0(f2,cref2,shape2);} else
@@ -433,23 +446,18 @@ void main()
 	// Interlacing Mode: 0 = No Interlacing/Scanlines, 1 = Interlacing, 2 = No Scanline Mode/Hi-Res Mode, 3 = 30fps Interlacing
 	if (interm > 0.5 && inter <= mix(SourceSize.y, SourceSize.x, TATE)) 
 	{
-		float line_no  = floor(mod(mix(  OGL2Pos.y,  OGL2Pos.x, TATE),2.0));		
-		float frame_no = floor(mod(float(FrameCount),2.0));
-		
-		if (interm == 1.0)
+		if (interm < 2.5)
 		{
-			vec3 icolor1 = mix(color1, color0, abs(line_no-frame_no));
-			vec3 icolor2 = mix(color1, color2, abs(line_no-frame_no));
+			float line_no  = floor(mod(mix(  OGL2Pos.y,  OGL2Pos.x, TATE),2.0));		
+			float frame_no = floor(mod(float(FrameCount),2.0));
+			float ii = (interm > 1.5) ? 0.5 : abs(line_no-frame_no);
+			
+			vec3 icolor1 = mix(color1, color0, ii);
+			vec3 icolor2 = mix(color1, color2, ii);
+			
 			color = mix(icolor1, icolor2, f);
+			mcolor = sqrt(color); 			
 		} 
-		else if (interm == 2.0)
-		{
-			float v0 = exp2(-2.25*2.25);			
-			float v1 = exp2(-2.25*(0.5+f)*(0.5+f)) - v0;
-			float v2 = exp2(-2.25*(0.5-f)*(0.5-f)) - v0;
-			float v3 = exp2(-2.25*(1.5-f)*(1.5-f)) - v0;
-			color = (v1*color0 + v2*color1 + v3*color2)/(v1+v2+v3);
-		}
 		else color = mix(color1, color2, f);
 	}
 	
@@ -460,7 +468,7 @@ void main()
     color *= (XFX_STATIC > 0.0) ? 1.0 + film_grain : vec3(1.0);
 
 	// Apply Mask
-	vec3 mask_weight = (TATE < 0.5) ? mask_weights(gl_FragCoord.xy, MASK_DARK, int(MASK_STYLE)) : mask_weights(gl_FragCoord.yx, MASK_DARK, int(MASK_STYLE));
+	vec3 mask_weight = (notate) ? mask_weights(gl_FragCoord.xy, MASK_DARK, int(MASK_STYLE)) : mask_weights(gl_FragCoord.yx, MASK_DARK, int(MASK_STYLE));
 	color *= mask_weight;
 
 	//Apply Bloom
@@ -476,7 +484,7 @@ void main()
 	{
 		color += diff * mask_weight * HALATION;
 		if (interm < 0.5 || inter > mix(SourceSize.y, SourceSize.x, TATE)) color = declip(color, pow(w3,0.5));
-		color = min(color, mix(mask_weight,one,0.5));
+		color = min(color, mix(mask_weight,one,0.6));
 		color += diff * DIFFUSION;
 	} else
 	if (Bloom_Mode == 1.0)
@@ -495,7 +503,7 @@ void main()
 
 		color = min(color, 1.0);
 		if (interm < 0.5 || inter > mix(SourceSize.y, SourceSize.x, TATE)) color = declip(color, pow(w3,0.6));	
-		color = min(color, mix(mask_weight,one,0.5));
+		color = min(color, mix(mask_weight,one,0.6));
 		color = color + DIFFUSION*diff;
 	}
 
