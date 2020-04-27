@@ -46,7 +46,7 @@ scale_type6 = source
 scale6 = 1.0
 float_framebuffer6 = true
 
-shader7 = champloo-dx-gr/crt-champloo-dx.slang
+shader7 = champloo-dx-gr/crt-champloo-dx-gr.slang
 filter_linear7 = true
 scale_type7 = viewport
 scale_x7 = 1.0
