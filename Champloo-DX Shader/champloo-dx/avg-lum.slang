@@ -43,7 +43,7 @@ layout(location = 0) out vec4 FragColor;
 layout(set = 0, binding = 2) uniform sampler2D Source;
 layout(set = 0, binding = 3) uniform sampler2D AvgLumPassFeedback;
 
-#define PassPrev2Texture WhitePointPass
+#define PassPrev3Texture WhitePointPass
 
 void main()
 {

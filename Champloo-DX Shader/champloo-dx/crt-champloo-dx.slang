@@ -86,6 +86,7 @@ float XFX_HOTSPOT = global.XFX_HOTSPOT;
 float vertmask_r = global.vertmask_r;
 float vertmask_g = global.vertmask_g;
 float vertmask_b = global.vertmask_b;
+float hmbz_tube_glass_image_opacity = global.hmbz_tube_glass_image_opacity;
 
 //-----------------------------------------------------------------------------
 // Defines
@@ -116,6 +117,7 @@ layout(set = 0, binding = 2) uniform sampler2D Source;
 layout(set = 0, binding = 3) uniform sampler2D LinearizePass;
 layout(set = 0, binding = 4) uniform sampler2D AvgLumPass;
 layout(set = 0, binding = 5) uniform sampler2D GlowPass;
+layout(set = 0, binding = 6) uniform sampler2D TubeGlassImage;
 
 #define Texture Source
 #define PassPrev5Texture AvgLumPass
@@ -392,6 +394,13 @@ void main()
 		if (sharp) color0 = clamp(color0, colmin, colmax);
 	}
 	
+	//Black Adjustment during afterglow FIX!!!!!!
+	
+	color1 += (0.02 / 200.0) * (1.0 - color1);
+	color2 += (0.02 / 200.0) * (1.0 - color2);
+	scolor1 += (0.02 / 200.0) * (1.0 - scolor1);
+	scolor2 += (0.02 / 200.0) * (1.0 - scolor2);
+	
 	//Calculating Scanlines
 	
 	float shape1 = mix(scanline1, scanline2, f);
@@ -445,7 +454,7 @@ void main()
 		} 
 		else color = mix(color1, color2, f);
 	}
-	
+
 	ctmp = 0.5*(ctmp+tmp);
 	color*=mix(brightboost, brightboost1, max(max(ctmp.r,ctmp.g),ctmp.b)); 
 
@@ -482,4 +491,6 @@ void main()
 	}
 
 	FragColor = vec4(color*corner(pos0), 1.0);
+	vec4 tube_glass_image = texture(TubeGlassImage, pos0);
+	FragColor += (hmbz_tube_glass_image_opacity / 100) * tube_glass_image.a * tube_glass_image;
 }

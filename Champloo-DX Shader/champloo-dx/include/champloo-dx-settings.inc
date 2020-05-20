@@ -13,6 +13,7 @@ layout(std140, set = 0, binding = 0) uniform UBO
 	float Bloom_Mode, HALATION, DIFFUSION;
 	float CURVE_STYLE, csize, bsize;
 	float TATE, OS, BLOOM, lsmooth, XFX_STATIC, XFX_VIGNETTE, XFX_HOTSPOT, vertmask_r, vertmask_g, vertmask_b;
+	float hmbz_tube_glass_image_opacity;
 } global;
 
 layout(push_constant) uniform Push
@@ -81,6 +82,7 @@ layout(push_constant) uniform Push
 #pragma parameter vertmask_r "[Effect] Red Deconvergence:" 0.0 -0.5 0.5 0.01
 #pragma parameter vertmask_g "[Effect] Green Deconvergence:" 0.0 -0.5 0.5 0.01
 #pragma parameter vertmask_b "[Effect] Blue Deconvergence:" 0.0 -0.5 0.5 0.01
+#pragma parameter hmbz_tube_glass_image_opacity "Tube Glass" 0.0 0.0 50.0 0.1
 
 #define COMPAT_TEXTURE(c,d) texture(c,d)
 #define SourceSize global.SourceSize
