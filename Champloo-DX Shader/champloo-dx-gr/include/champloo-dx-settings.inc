@@ -89,7 +89,7 @@ layout(push_constant) uniform Push
 #pragma parameter XFX_STATIC "[Effect] Static:" 0.0 0.0 99.0 3.0
 #pragma parameter XFX_VIGNETTE "[Effect] Vignette: (Def = 0.15)" 0.0 0.0 0.5 0.01
 #pragma parameter XFX_HOTSPOT "[Effect] Hotspot: (Def = 15.0)" 10.0 10.0 40.0 1.0
-#pragma parameter hmbz_tube_glass_image_opacity "Tube Glass" 0.0 0.0 50.0 0.1
+#pragma parameter hmbz_tube_glass_image_opacity "[Tube-Glass] Strength:" 0.0 0.0 50.0 0.1
 
 #define COMPAT_TEXTURE(c,d) texture(c,d)
 #define SourceSize global.SourceSize

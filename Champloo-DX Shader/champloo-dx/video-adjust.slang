@@ -18,7 +18,6 @@ layout(push_constant) uniform Push
     float g_lum;
     float g_cntrst;
     float g_mid;
-    float g_lift;
     float blr;
     float blg;
     float blb;
@@ -77,36 +76,35 @@ layout(push_constant) uniform Push
 */
 
 
-#pragma parameter g_space_out "Diplay Color Space" 0.0 0.0 2.0 1.0
-#pragma parameter g_gamma_in "CRT Gamma" 2.40 1.80 3.0 0.05
-#pragma parameter g_gamma_type "Signal Gamma (POW:0, sRGB:1, SMPTE-C:2)" 2.0 0.0 2.0 1.0
-#pragma parameter g_crtgamut "Gamut (1:NTSC-U 2:NTSC-J 3:PAL)" 2.0 -4.0 3.0 1.0
-#pragma parameter g_hue_degrees "Hue" 0.0 -360.0 360.0 1.0
-#pragma parameter g_I_SHIFT "I/U Shift" 0.0 -1.0 1.0 0.01
-#pragma parameter g_Q_SHIFT "Q/V Shift" 0.0 -1.0 1.0 0.01
-#pragma parameter g_I_MUL "I/U Multiplier" 1.0 0.0 2.0 0.01
-#pragma parameter g_Q_MUL "Q/V Multiplier" 1.0 0.0 2.0 0.01
-#pragma parameter wp_temperature "White Point" 9305.0 1621.0 12055.0 50.0
-#pragma parameter g_satr "[Saturation] Red Saturation:" 0.0 -1.0 1.0 0.01
-#pragma parameter g_satg "[Saturation] Green Saturation:" 0.0 -1.0 1.0 0.01
-#pragma parameter g_satb "[Saturation] Blue Saturation:" 0.0 -1.0 1.0 0.01
-#pragma parameter g_vibr "Dullness/Vibrance" 0.0 -1.0 1.0 0.05
-#pragma parameter g_lum "Brightness" 0.0 -0.5 1.0 0.01
-#pragma parameter g_cntrst "Contrast" 0.0 -1.0 1.0 0.05
-#pragma parameter g_mid "Contrast Pivot" 0.5 0.0 1.0 0.01
-#pragma parameter g_lift "Black Level" 0.0 -0.5 0.5 0.01
-#pragma parameter blr "Black-Red Tint" 0.0 0.0 1.0 0.01
-#pragma parameter blg "Black-Green Tint" 0.0 0.0 1.0 0.01
-#pragma parameter blb "Black-Blue Tint" 0.0 0.0 1.0 0.01
-#pragma parameter wlr "White-Red Tint" 1.0 0.0 2.0 0.01
-#pragma parameter wlg "White-Green Tint" 1.0 0.0 2.0 0.01
-#pragma parameter wlb "White-Blue Tint" 1.0 0.0 2.0 0.01
-#pragma parameter rg "Red-Green Tint" 0.0 -1.0 1.0 0.005
-#pragma parameter rb "Red-Blue Tint" 0.0 -1.0 1.0 0.005
-#pragma parameter gr "Green-Red Tint" 0.0 -1.0 1.0 0.005
-#pragma parameter gb "Green-Blue Tint" 0.0 -1.0 1.0 0.005
-#pragma parameter br "Blue-Red Tint" 0.0 -1.0 1.0 0.005
-#pragma parameter bg "Blue-Green Tint" 0.0 -1.0 1.0 0.005
+#pragma parameter g_space_out "[Diplay] Color Space:" 0.0 0.0 2.0 1.0
+#pragma parameter g_gamma_in "[Gamma] CRT:" 2.40 1.80 3.0 0.05
+#pragma parameter g_gamma_type "[Gamma] Mode:(POW:0, sRGB:1, SMPTE-C:2)" 2.0 0.0 2.0 1.0
+#pragma parameter g_crtgamut "[CRT] Color Gamut:(1:NTSC-U 2:NTSC-J 3:PAL)" 2.0 -4.0 3.0 1.0
+#pragma parameter g_hue_degrees "[Hue] Adjust:" 0.0 -360.0 360.0 1.0
+#pragma parameter g_I_SHIFT "[Hue] I/U Shift:" 0.0 -1.0 1.0 0.01
+#pragma parameter g_Q_SHIFT "[Hue] Q/V Shift:" 0.0 -1.0 1.0 0.01
+#pragma parameter g_I_MUL "[Hue] I/U Multiplier:" 1.0 0.0 2.0 0.01
+#pragma parameter g_Q_MUL "[Hue] Q/V Multiplier:" 1.0 0.0 2.0 0.01
+#pragma parameter wp_temperature "[White] Temperature:" 9305.0 1621.0 12055.0 50.0
+#pragma parameter g_satr "[Saturation] Red Saturation:" 0.0 -1.0 2.0 0.01
+#pragma parameter g_satg "[Saturation] Green Saturation:" 0.0 -1.0 2.0 0.01
+#pragma parameter g_satb "[Saturation] Blue Saturation:" 0.0 -1.0 2.0 0.01
+#pragma parameter g_vibr "[Saturation] Dullness/Vibrance:" 0.0 -1.0 1.0 0.05
+#pragma parameter g_lum "[Color] Brightness Level:" 0.0 -0.5 1.0 0.01
+#pragma parameter g_cntrst "[Color] Contrast Level:" 0.0 -1.0 1.0 0.05
+#pragma parameter g_mid "[Color] Contrast Pivot:" 0.5 0.0 1.0 0.01
+#pragma parameter blr "[Black] Red Tint:" 0.0 0.0 1.0 0.01
+#pragma parameter blg "[Black] Green Tint:" 0.0 0.0 1.0 0.01
+#pragma parameter blb "[Black] Blue Tint:" 0.0 0.0 1.0 0.01
+#pragma parameter wlr "[White] Red Tint:" 1.0 0.0 2.0 0.01
+#pragma parameter wlg "[White] Green Tint:" 1.0 0.0 2.0 0.01
+#pragma parameter wlb "[White] Blue Tint:" 1.0 0.0 2.0 0.01
+#pragma parameter rg "[Red] Green Tint:" 0.0 -1.0 1.0 0.005
+#pragma parameter rb "[Red] Blue Tint:" 0.0 -1.0 1.0 0.005
+#pragma parameter gr "[Green] Red Tint:" 0.0 -1.0 1.0 0.005
+#pragma parameter gb "[Green] Blue Tint:" 0.0 -1.0 1.0 0.005
+#pragma parameter br "[Blue] Red Tint:" 0.0 -1.0 1.0 0.005
+#pragma parameter bg "[Blue] Green Tint:" 0.0 -1.0 1.0 0.005
 
 #define M_PI            3.1415926535897932384626433832795
 #define SPC             params.g_space_out
@@ -126,7 +124,6 @@ layout(push_constant) uniform Push
 #define lum             params.g_lum
 #define cntrst          params.g_cntrst
 #define mid             params.g_mid
-#define lift            params.g_lift
 #define blr             params.blr
 #define blg             params.blg
 #define blb             params.blb
@@ -739,7 +736,7 @@ void main()
     vec3 XYZsrgb = clamp(XYZ_to_RGB(YxytoXYZ(contrast), SPC), 0.0, 1.0);
     contrast = (cntrst == 0.0) ? XYZ_to_RGB(imgColor, SPC) : XYZsrgb;
 
-    contrast += (lift / 20.0) * (1.0 - contrast);
+    contrast += (0.0 / 20.0) * (1.0 - contrast);
 
 
 // RGB Related Transforms

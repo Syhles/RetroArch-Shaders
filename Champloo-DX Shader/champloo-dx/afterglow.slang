@@ -26,14 +26,14 @@ layout(push_constant) uniform Push
    float SW, AR, PR, AG, PG, AB, PB, sat;
 } params;
 
-#pragma parameter SW "Afterglow switch ON/OFF" 1.0 0.0 1.0 1.0
-#pragma parameter AR "Afterglow Red (more is more)" 0.07 0.0 1.0 0.01
-#pragma parameter PR "Persistence Red (more is less)" 0.05 0.0 1.0 0.01
-#pragma parameter AG "Afterglow Green" 0.07 0.0 1.0 0.01
-#pragma parameter PG "Persistence Green"  0.05 0.0 1.0 0.01
-#pragma parameter AB "Afterglow Blue" 0.07 0.0 1.0 0.01
-#pragma parameter PB "Persistence Blue"  0.05 0.0 1.0 0.01
-#pragma parameter sat "Afterglow saturation" 0.10 0.0 1.0 0.01
+#pragma parameter SW "[Afterglow] ON/OFF:" 1.0 0.0 1.0 1.0
+#pragma parameter AR "[Afterglow] Red Strength:(-=+)" 0.07 0.0 1.0 0.01
+#pragma parameter PR "[Afterglow] Persistence Red:(+=+)" 0.05 0.0 1.0 0.01
+#pragma parameter AG "[Afterglow] Green:(-=+)" 0.07 0.0 1.0 0.01
+#pragma parameter PG "[Afterglow] Persistence Green:(+=+)"  0.05 0.0 1.0 0.01
+#pragma parameter AB "[Afterglow] Blue:(-=+)" 0.07 0.0 1.0 0.01
+#pragma parameter PB "[Afterglow] Persistence Blue:(+=+)"  0.05 0.0 1.0 0.01
+#pragma parameter sat "[Afterglow] Saturation:" 0.10 0.0 1.0 0.01
 
 #define SW params.SW
 #define AR params.AR
