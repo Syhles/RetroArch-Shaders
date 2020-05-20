@@ -6,13 +6,13 @@ layout(std140, set = 0, binding = 0) uniform UBO
 	vec4 OriginalSize;
 	vec4 OutputSize;
 	uint FrameCount;
-	float GAMMA_INPUT, IOS, h_sharp, s_sharp, brightboost, brightboost1, gamma_out;
+	float GAMMA_INPUT, scanline_black, IOS, h_sharp, s_sharp, brightboost, brightboost1, gamma_out;
 	float inter, interm;
 	float scan_res, gsl, scanline1, scanline2, beam_min, beam_max, beam_size, spike, scans;
 	float MASK_STYLE, MASK_DARK;
 	float Bloom_Mode, HALATION, DIFFUSION;
 	float CURVE_STYLE, csize, bsize;
-	float TATE, OS, BLOOM, lsmooth, XFX_STATIC, XFX_VIGNETTE, XFX_HOTSPOT, vertmask_r, vertmask_g, vertmask_b;
+	float TATE, OS, BLOOM, lsmooth, XFX_STATIC, XFX_VIGNETTE, XFX_HOTSPOT;
 	float hmbz_tube_glass_image_opacity;
 } global;
 
@@ -29,6 +29,7 @@ layout(push_constant) uniform Push
 
 // Champloo-DX Pass - Display Settings:
 #pragma parameter GAMMA_INPUT "[Display] Gamma: (Input)" 2.4 0.1 5.0 0.05
+#pragma parameter scanline_black "[Display] Black: Level" 0.0 0.0 0.1 0.01
 #pragma parameter IOS "[Display] Smart Integer Scaling: (1.0:Y, 2.0:'X'+Y)" 0.0 0.0 2.0 1.0
 #pragma parameter h_sharp "[Display] Horizontal Sharpness:" 5.25 1.0 15.0 0.25
 #pragma parameter s_sharp "[Display] Substractive Sharpness:" 0.40 0.0 1.0 0.05
@@ -79,9 +80,6 @@ layout(push_constant) uniform Push
 #pragma parameter XFX_STATIC "[Effect] Static:" 0.0 0.0 99.0 3.0
 #pragma parameter XFX_VIGNETTE "[Effect] Vignette: (Def = 0.15)" 0.0 0.0 0.5 0.01
 #pragma parameter XFX_HOTSPOT "[Effect] Hotspot: (Def = 15.0)" 10.0 10.0 40.0 1.0
-#pragma parameter vertmask_r "[Effect] Red Deconvergence:" 0.0 -0.5 0.5 0.01
-#pragma parameter vertmask_g "[Effect] Green Deconvergence:" 0.0 -0.5 0.5 0.01
-#pragma parameter vertmask_b "[Effect] Blue Deconvergence:" 0.0 -0.5 0.5 0.01
 #pragma parameter hmbz_tube_glass_image_opacity "Tube Glass" 0.0 0.0 50.0 0.1
 
 #define COMPAT_TEXTURE(c,d) texture(c,d)

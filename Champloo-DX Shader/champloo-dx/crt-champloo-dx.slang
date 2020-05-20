@@ -34,6 +34,7 @@
 //-----------------------------------------------------------------------------
 
 // Display Settings:
+float scanline_black = global.scanline_black;
 float IOS = global.IOS;
 float h_sharp = global.h_sharp;
 float s_sharp = global.s_sharp;
@@ -83,9 +84,6 @@ float BLOOM = global.BLOOM;
 float XFX_STATIC = global.XFX_STATIC;
 float XFX_VIGNETTE = global.XFX_VIGNETTE;
 float XFX_HOTSPOT = global.XFX_HOTSPOT;
-float vertmask_r = global.vertmask_r;
-float vertmask_g = global.vertmask_g;
-float vertmask_b = global.vertmask_b;
 float hmbz_tube_glass_image_opacity = global.hmbz_tube_glass_image_opacity;
 
 //-----------------------------------------------------------------------------
@@ -146,9 +144,6 @@ vec3 sw1(vec3 x, vec3 color, float scanline)
 	vec3 res = exp2(-scanline*ex*ex)/(1.0-br+br*mx);
 	mx = max(max(res.r,res.g),res.b);
 	vec3 scans1 = vec3(scans);
-	if (vertmask_r != 0.0) scans1.r =1.0;
-	if (vertmask_g != 0.0) scans1.g =1.0;
-	if (vertmask_b != 0.0) scans1.b =1.0;
 	return mix(vec3(mx), res, scans1);		
 }    
 
@@ -161,9 +156,6 @@ vec3 sw2(vec3 x, vec3 color, float scanline)
 	vec3 res = exp2(-scanline*ex*ex)/(0.6 + 0.4*mx);
 	mx = max(max(res.r,res.g),res.b);
 	vec3 scans1 = vec3(scans);
-	if (vertmask_r != 0.0) scans1.r =0.85;
-	if (vertmask_g != 0.0) scans1.g =0.85;
-	if (vertmask_b != 0.0) scans1.b =0.85;
 	return mix(vec3(mx), res, scans1);
 }
 
@@ -396,10 +388,10 @@ void main()
 	
 	//Black Adjustment during afterglow FIX!!!!!!
 	
-	color1 += (0.02 / 200.0) * (1.0 - color1);
-	color2 += (0.02 / 200.0) * (1.0 - color2);
-	scolor1 += (0.02 / 200.0) * (1.0 - scolor1);
-	scolor2 += (0.02 / 200.0) * (1.0 - scolor2);
+	color1 += (scanline_black / 200.0) * (1.0 - color1);
+	color2 += (scanline_black/ 200.0) * (1.0 - color2);
+	scolor1 += (scanline_black / 200.0) * (1.0 - scolor1);
+	scolor2 += (scanline_black / 200.0) * (1.0 - scolor2);
 	
 	//Calculating Scanlines
 	
@@ -423,7 +415,7 @@ void main()
 	vec3 cref2 = mix(sctmp, scolor2, beam_size);
 	
 	//Vertical Deconvergence
-	vec3 shift = vec3(vertmask_r, vertmask_g, vertmask_b);
+	vec3 shift = vec3(0.0);
 	vec3 f1 = vec3(f); 
 	vec3 f2 = vec3(1.0-f);
 
